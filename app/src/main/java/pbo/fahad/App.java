@@ -324,13 +324,6 @@ public class App {
     animals.add(new Parrot("Parot", 5, "Seeds", 1.0));
     animals.add(new Duck("Donald", 6, "Duck Food", 1.5));
 
-    
-    Collections.sort(animals, new java.util.Comparator<Animal>() {
-        @Override
-        public int compare(Animal a1, Animal a2) {
-            return Integer.compare(a1.getAge(), a2.getAge());
-        }
-    });
 
     for (Animal animal : animals) {
         System.out.println("Animal Type: " + animal.getType());
