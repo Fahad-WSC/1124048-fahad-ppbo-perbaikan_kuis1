@@ -1,16 +1,20 @@
 package pbo.fahad;
+import java.util.ArrayList;
+import java.util.Collections;
 
-abstract class Hewan {
+abstract class Animal {
     private String name;
     private int age;
     private String food;
 
-    public Hewan(String name, int age, String food) {
+    public Animal(String name, int age, String food) {
         this.name = name;
         this.age = age;
         this.food = food;
     }
 
+    public abstract String getType();
+    
     public String getName() {
         return name;
     }
@@ -37,161 +41,217 @@ abstract class Hewan {
 
     public abstract String printSound();
 
-    public abstract void move();
+    public String eat() {
+        return name + " is eating " + food;
+    }
 
     public String printData() {
-        return "Name: " + "|" + name + "|" +"Age: " + "|" + age + "|" + "Food: " + food;
+        return "Name: " + name + " | Age: " + age + " | Food: " + food;
     }
 }
 
-class HewanDarat extends Hewan {
+abstract class LandAnimal extends Animal {
     int numberOfLegs;
-
-    public HewanDarat(String name, int age, String food, int numberOfLegs) {
+    public LandAnimal(String name, int age , String food, int numberOfLegs) {
         super(name, age, food);
         this.numberOfLegs = numberOfLegs;
     }
 
-    public void move() {
-        System.out.println("Aku hewan darat yang berjalan di darat");
+    public int getNumberOfLegs() {
+        return numberOfLegs;
     }
 
-    @Override
-    public String printSound() {
-        return "ckckckck";
+    public void setNumberOfLegs(int numberOfLegs) {
+        this.numberOfLegs = numberOfLegs;
     }
 
-    @Override
+
     public String printData() {
-        return super.printData() + "Number of Legs: " + numberOfLegs;
-    }
+        return super.printData() + " | Number of Legs: " + numberOfLegs;
+    }    
 }
 
-class Anjing extends HewanDarat {
-    public Anjing(String name, int age, String food, int numberOfLegs) {
-        super(name, age, food, numberOfLegs);
-    }
-
-    @Override
-    public String printSound() {
-        return "Guk guk";
-    }
-}
-
-class Kucing extends HewanDarat {
-    public Kucing(String name, int age, String food, int numberOfLegs) {
-        super(name, age, food, numberOfLegs);
-    }
-
-    @Override
-    public String printSound() {
-        return "Meow meow";
-    }
-}
-
-class Tikus extends HewanDarat {
-    public Tikus(String name, int age, String food, int numberOfLegs) {
-        super(name, age, food, numberOfLegs);
-    }
-
-    @Override
-    public String printSound() {
-        return "Cit cit";
-    }
-}
-
-class HewanLaut extends Hewan {
-    int depth;
-
-    public HewanLaut(String name, int age, String food, int depth) {
+abstract class SeaAnimal extends Animal {
+    double maximumDepth;
+    public SeaAnimal(String name, int age , String food, double maximumDepth) {
         super(name, age, food);
-        this.depth = depth;
+        this.maximumDepth = maximumDepth;
     }
 
-    public void move() {
-        System.out.println("Aku hewan laut");
+    public double getMaximumDepth() {
+        return maximumDepth;
+    }
+
+    public void setMaximumDepth(double maximumDepth) {
+        this.maximumDepth = maximumDepth;
     }
 
     @Override
-    public String printSound() {
-        return "splash splash";
-    }
-
-    @Override 
     public String printData() {
-        return super.printData() + "Depth: " + depth;
+        return super.printData() + " | Maximum Depth: " + maximumDepth;
     }
+
+
 }
 
-class Ikan extends HewanLaut {
-    public Ikan(String name, int age, String food, int depth) {
-        super(name, age, food, depth);
-    }
-
-    @Override
-    public String printSound() {
-        return "Blub blub";
-    }
-}
-
-class Hiu extends HewanLaut {
-    public Hiu(String name, int age, String food, int depth) {
-        super(name, age, food, depth);
-    }
-
-    @Override
-    public String printSound() {
-        return "Splash";
-    }
-}
-
-class Paus extends HewanLaut {
-    public Paus(String name, int age, String food, int depth) {
-        super(name, age, food, depth);
-    }
-
-    @Override
-    public String printSound() {
-        return "Whistle";
-    }
-}
-
-class hewanUdara extends Hewan {
-    Double wingSpan;
-
-    public hewanUdara(String name, int age, String food, Double wingSpan) {
+abstract class AirAnimal extends Animal {
+    double wingSpan;
+    public AirAnimal(String name, int age , String food, double wingSpan) {
         super(name, age, food);
         this.wingSpan = wingSpan;
     }
 
-    public void move() {
-        System.out.println("Aku hewan udara");
+    public double getWingSpan() {
+        return wingSpan;
     }
 
-    @Override
-    public String printSound() {
-        return "cirp cirp";
+    public void setWingSpan(double wingSpan) {
+        this.wingSpan = wingSpan;
     }
 
     @Override
     public String printData() {
-        return super.printData() + "Wing Span: " + wingSpan;
+        return super.printData() + " | Wing Span: " + wingSpan;
     }
 }
 
-class Burung extends hewanUdara {
-    public Burung(String name, int age, String food, Double wingSpan) {
-        super(name, age, food, wingSpan);
+interface Moveable{
+    String move();
+}
+
+interface Feedable{
+     String eat();
+}
+
+class Dog extends LandAnimal implements Moveable, Feedable {
+    public Dog (String name, int age, String food, int numberOfLegs) {
+        super(name, age, food, numberOfLegs);
     }
 
     @Override
     public String printSound() {
-        return "Cuit cuit";
+        return "Woof Woof";
     }
-}   
 
-class Elang extends hewanUdara {
-    public Elang(String name, int age, String food, Double wingSpan) {
+    @Override
+    public String getType() {
+        return "Dog";
+    }
+
+    @Override
+    public String move() {
+        return "Dog is running.";
+    }
+}
+
+
+class Cat extends LandAnimal implements Moveable, Feedable {
+    public Cat (String name, int age, String food, int numberOfLegs) {
+        super(name, age, food, numberOfLegs);
+    }
+
+    @Override
+    public String printSound() {
+        return "Meow Meow";
+    }
+
+    @Override
+    public String getType() {
+        return "Cat";
+    }
+
+    @Override
+    public String move() {
+        return "Cat is stalking and walking softly";
+    }
+}
+
+class Mouse extends LandAnimal implements Moveable, Feedable {
+    public Mouse (String name, int age, String food, int numberOfLegs) {
+        super(name, age, food, numberOfLegs);
+    }
+
+    @Override
+    public String printSound() {
+        return "Squeak";
+    }
+
+    @Override
+    public String getType() {
+        return "Mouse";
+    }
+
+    @Override
+    public String move() {
+        return "Mouse is scurrying";
+    }
+}
+
+class Fish extends SeaAnimal implements Moveable, Feedable {
+public Fish (String name, int age, String food, double maximumDepth) {
+        super(name, age, food, maximumDepth);
+    }
+
+    @Override
+    public String printSound() {
+        return "Blub Blub";
+    }
+
+    @Override
+    public String getType() {
+        return "Fish";
+    }
+
+    @Override
+    public String move() {
+        return "Fish is swimming rapidly";
+    }
+}
+
+class Shark extends SeaAnimal implements Moveable, Feedable {
+    public Shark (String name, int age, String food, double maximumDepth) {
+        super(name, age, food, maximumDepth);
+    }
+
+    @Override
+    public String printSound() {
+        return "Silent Splash";
+    }
+
+    @Override
+    public String getType() {
+        return "Shark";
+    }
+
+    @Override
+    public String move() {
+        return "Shark is gliding through the deep ocean";
+    }
+}
+
+class Whale extends SeaAnimal implements Moveable, Feedable {
+    public Whale (String name, int age, String food, double maximumDepth) {
+        super(name, age, food, maximumDepth);
+    }
+
+    @Override
+    public String printSound() {
+        return "Whale Song";
+    }
+
+    @Override
+    public String getType() {
+        return "Whale";
+    }
+
+    @Override
+    public String move() {
+        return "Whale is diving gracefully";
+    }
+}
+
+class Eagle extends AirAnimal implements Moveable, Feedable {
+    public Eagle (String name, int age, String food, double wingSpan) {
         super(name, age, food, wingSpan);
     }
 
@@ -199,42 +259,118 @@ class Elang extends hewanUdara {
     public String printSound() {
         return "Screech";
     }
+
+    @Override
+    public String getType() {
+        return "Eagle";
+    }
+
+    @Override
+    public String move() {
+        return "Eagle is soaring high in the sky";
+    }
 }
 
-class Bebek extends hewanUdara {
-    public Bebek(String name, int age, String food, Double wingSpan) {
+class Parrot extends AirAnimal implements Moveable, Feedable {
+    public Parrot (String name, int age, String food, double wingSpan) {
         super(name, age, food, wingSpan);
     }
 
     @Override
     public String printSound() {
-        return "Kwek Kwek";
+        return "Squawk";
+    }
+
+    @Override
+    public String getType() {
+        return "Parrot";
+    }
+
+    @Override
+    public String move() {
+        return "Parrot is fluttering through the trees";
     }
 }
 
+class Duck extends AirAnimal implements Moveable, Feedable {
+    public Duck (String name, int age, String food, double wingSpan) {
+        super(name, age, food, wingSpan);
+    }
 
+    @Override
+    public String printSound() {
+        return "Quack Quack";
+    }
+
+    @Override
+    public String getType() {
+        return "Duck";
+    }
+
+    @Override
+    public String move() {
+        return "Duck is flying and paddling";
+    }
+}
 
 public class App {
     public static void main(String[] args) {
-       Hewan[] daftarHewan = new Hewan[] {
-        new Anjing("Doggy", 3, "Tulang", 4),
-        new Kucing("Milo", 2, "Ikan", 4),
-        new Tikus("Jerry", 1, "Keju", 4),   
-        new Ikan("Nemo", 1, "Plankton", 15),
-        new Hiu("Megalo", 10, "Daging", 500),
-        new Paus("Bluey", 20, "Krill", 1000),
-        new Burung("Pipit"  , 1, "Biji-bijian", 0.2),
-        new Elang("Garuda", 5, "Daging", 2.1),
-        new Bebek("Donald", 2, "Dedak", 0.8)
-       };
+    ArrayList<Animal> animals = new ArrayList<>();
 
-       
-       for (Hewan h : daftarHewan) {
-        h.move();
-        System.out.println(h.printData());
-        System.out.println("Suara: " + h.printSound());
+    animals.add(new Dog("Doggy", 1, "Dog Food", 4));
+    animals.add(new Cat("Kath", 2, "Cat Food", 4));
+    animals.add(new Shark("Sharky", 3, "Meat", 200.0));
+    animals.add(new Whale("Wally", 4, "Plankton", 500.0));
+    animals.add(new Parrot("Parot", 5, "Seeds", 1.0));
+    animals.add(new Duck("Donald", 6, "Duck Food", 1.5));
+
+    
+    Collections.sort(animals, new java.util.Comparator<Animal>() {
+        @Override
+        public int compare(Animal a1, Animal a2) {
+            return Integer.compare(a1.getAge(), a2.getAge());
+        }
+    });
+
+    for (Animal animal : animals) {
+        System.out.println("Animal Type: " + animal.getType());
+        System.out.println(animal.printData());
+        System.out.println("Sound: " + animal.printSound());
+        if (animal instanceof Moveable moveable) {
+            System.out.println("Movement: " + moveable.move());
+        }
+        if (animal instanceof Feedable feedable) {
+            System.out.println("Eating: " + feedable.eat());
+        }
         System.out.println("-----------------------------");
-       };
-
     }
+
+
+    System.out.println("Sorting animals by name:");
+    Collections.sort(animals, new java.util.Comparator<Animal>() {
+        @Override
+        public int compare(Animal a1, Animal a2) {
+            return a1.getName().compareTo(a2.getName());
+        }
+    });
+    
+    for(Animal animal : animals){
+        System.out.println(animal.getName() + " - " + animal.getType() + "Age: " + animal.getAge());
+    }
+
+    System.out.println("-----------------------------");
+    System.out.println("Sorting animals by age:");
+    Collections.sort(animals, new java.util.Comparator<Animal>() {
+        @Override
+        public int compare(Animal a1, Animal a2) {
+            return Integer.compare(a1.getAge(), a2.getAge());
+        }
+    });
+
+    for(Animal animal : animals){
+        System.out.println(animal.getName() + " - " + animal.getType() + "Age: " + animal.getAge());
+    }
+
 }
+}
+    
